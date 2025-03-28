@@ -6,10 +6,12 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <main className="pt-28 min-h-screen bg-white text-gray-800 font-sans px-6 py-10 dark:bg-[#1F1B16] dark:text-[#FAF4ED]">
+      <main className="pt-35 pb-24 min-h-screen bg-white text-gray-800 font-sans px-35 dark:bg-[#1F1B16] dark:text-[#FAF4ED]">
+
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-start gap-8">
 
           {/* Left: Headshot + Contact Links */}
+          <div className="bg-[#FEF7EC] border border-[#F9C06B] rounded-xl shadow-md p-6">
           <div className="flex-shrink-0 text-center space-y-4">
             <img
               src="/arpan.jpg"
@@ -31,6 +33,7 @@ export default function Home() {
                 
               </a>
             </div>
+          </div>
           </div>
 
           {/* Right: Resume Content */}
@@ -135,6 +138,61 @@ export default function Home() {
   </div>
 </section>
 
+<section className="mb-12">
+  <h2 className="text-2xl font-semibold mb-6 flex items-center gap-2">
+    🛠️ Projects
+  </h2>
+  <div className="grid gap-6 md:grid-cols-2">
+
+    {/* Project 1 – AI-Powered 10-K Analysis */}
+    <div className="bg-[#FEF7EC] border border-[#F9C06B] rounded-xl shadow-md p-5">
+      <h3 className="font-semibold text-lg mb-1">📊 AI-Driven 10-K Analysis – Goldman Sachs vs. Morgan Stanley</h3>
+      <p className="text-sm text-gray-600 mb-1"><em>2025</em></p>
+      <p className="text-sm text-gray-800">
+        Used AI to extract financial insights, benchmark performance, and generate investment recommendations from Goldman Sachs' 2024 10-K filing. Compared it with Morgan Stanley for a deep, automated investment analysis.
+      </p>
+    </div>
+
+    {/* Project 2 – AI-Powered Financial Fraud Detection */}
+    <div className="bg-[#FEF7EC] border border-[#F9C06B] rounded-xl shadow-md p-5">
+      <h3 className="font-semibold text-lg mb-1">🔎 Unmasking Financial Fraud with AI & Data Analytics</h3>
+      <p className="text-sm text-gray-600 mb-1"><em>2025</em></p>
+      <p className="text-sm text-gray-800">
+        Investigated HealthSouth's financial records using AI techniques like Benford’s Law, anomaly detection, and network analysis to uncover hidden fraud patterns and high-risk transactions across revenue, expense, and journal entries.
+      </p>
+    </div>
+
+    {/* Project 3 – Portfolio Website */}
+    <div className="bg-[#FEF7EC] border border-[#F9C06B] rounded-xl shadow-md p-5">
+      <h3 className="font-semibold text-lg mb-1">🐻 Rather Bear Pan – Portfolio Website</h3>
+      <p className="text-sm text-gray-600 mb-1"><em>2025</em></p>
+      <p className="text-sm text-gray-800">
+        A full-stack portfolio + blog site built with Next.js and Strapi CMS. Bear-themed, clean, and designed to reflect both professionalism and personality.
+      </p>
+    </div>
+
+    {/* Project 4 – Parkinson's Detection */}
+    <div className="bg-[#FEF7EC] border border-[#F9C06B] rounded-xl shadow-md p-5">
+      <h3 className="font-semibold text-lg mb-1">🧠 Early Detection of Parkinson's Disease</h3>
+      <p className="text-sm text-gray-600 mb-1"><em>2023</em></p>
+      <p className="text-sm text-gray-800">
+        Developed ML models using Decision Tree, KNN, and SVM classifiers on speech data. Applied SMOTE for class balance and MinMaxScaler for feature normalization to improve prediction accuracy.
+      </p>
+    </div>
+
+  </div>
+
+  {/* Learn More Button */}
+  <div className="mt-8 text-center">
+    <a
+      href="/projects"
+      className="inline-block bg-[#8B5E3C] text-white px-6 py-2 rounded-full text-sm font-medium shadow hover:bg-[#73492C] transition"
+    >
+      See More Projects →
+    </a>
+  </div>
+</section>
+
 
 <section className="mb-8">
 <div className="bg-[#FEF7EC] border border-[#F9C06B] rounded-xl shadow-md p-6">
@@ -169,6 +227,8 @@ export default function Home() {
   </ul>
   </div>
 </section>
+
+
 
 
 <section className="mb-8">
@@ -233,63 +293,6 @@ export default function Home() {
   </ul>
   </div>
 </section>
-
-<section className="mb-12">
-  <h2 className="text-2xl font-semibold mb-6 flex items-center gap-2">
-    🛠️ Projects
-  </h2>
-  <div className="grid gap-6 md:grid-cols-2">
-
-    {/* Project 1 – AI-Powered 10-K Analysis */}
-    <div className="bg-[#FEF7EC] border border-[#F9C06B] rounded-xl shadow-md p-5">
-      <h3 className="font-semibold text-lg mb-1">📊 AI-Driven 10-K Analysis – Goldman Sachs vs. Morgan Stanley</h3>
-      <p className="text-sm text-gray-600 mb-1"><em>2025</em></p>
-      <p className="text-sm text-gray-800">
-        Used AI to extract financial insights, benchmark performance, and generate investment recommendations from Goldman Sachs' 2024 10-K filing. Compared it with Morgan Stanley for a deep, automated investment analysis.
-      </p>
-    </div>
-
-    {/* Project 2 – AI-Powered Financial Fraud Detection */}
-    <div className="bg-[#FEF7EC] border border-[#F9C06B] rounded-xl shadow-md p-5">
-      <h3 className="font-semibold text-lg mb-1">🔎 Unmasking Financial Fraud with AI & Data Analytics</h3>
-      <p className="text-sm text-gray-600 mb-1"><em>2025</em></p>
-      <p className="text-sm text-gray-800">
-        Investigated HealthSouth's financial records using AI techniques like Benford’s Law, anomaly detection, and network analysis to uncover hidden fraud patterns and high-risk transactions across revenue, expense, and journal entries.
-      </p>
-    </div>
-
-    {/* Project 3 – Portfolio Website */}
-    <div className="bg-[#FEF7EC] border border-[#F9C06B] rounded-xl shadow-md p-5">
-      <h3 className="font-semibold text-lg mb-1">🐻 Rather Bear Pan – Portfolio Website</h3>
-      <p className="text-sm text-gray-600 mb-1"><em>2025</em></p>
-      <p className="text-sm text-gray-800">
-        A full-stack portfolio + blog site built with Next.js and Strapi CMS. Bear-themed, clean, and designed to reflect both professionalism and personality.
-      </p>
-    </div>
-
-    {/* Project 4 – Parkinson's Detection */}
-    <div className="bg-[#FEF7EC] border border-[#F9C06B] rounded-xl shadow-md p-5">
-      <h3 className="font-semibold text-lg mb-1">🧠 Early Detection of Parkinson's Disease</h3>
-      <p className="text-sm text-gray-600 mb-1"><em>2023</em></p>
-      <p className="text-sm text-gray-800">
-        Developed ML models using Decision Tree, KNN, and SVM classifiers on speech data. Applied SMOTE for class balance and MinMaxScaler for feature normalization to improve prediction accuracy.
-      </p>
-    </div>
-
-  </div>
-
-  {/* Learn More Button */}
-  <div className="mt-8 text-center">
-    <a
-      href="/projects"
-      className="inline-block bg-[#8B5E3C] text-white px-6 py-2 rounded-full text-sm font-medium shadow hover:bg-[#73492C] transition"
-    >
-      See More Projects →
-    </a>
-  </div>
-</section>
-
-
 
 <section className="mb-12">
   <h2 className="text-2xl font-semibold mb-6 flex items-center gap-2">
@@ -358,7 +361,7 @@ export default function Home() {
           </div>
         </div>
       </main>
-      <footer className="mt-16 bg-[#FFF8F1] text-[#4B4032] py-6 border-t border-gray-200">
+      <footer className="fixed bottom-0 left-0 w-full bg-[#FFF8F1] text-[#4B4032] py-6 border-t border-gray-200">
   <div className="max-w-5xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm">
     
     {/* Left: Branding */}
