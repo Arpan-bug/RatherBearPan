@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "book_reads",
+  "info": {
+    "singularName": "book-read",
+    "pluralName": "book-reads",
+    "displayName": "Book Read"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "Title": {
+      "type": "string",
+      "required": true
+    },
+    "Author": {
+      "type": "string",
+      "required": true
+    },
+    "Rating": {
+      "type": "decimal",
+      "required": true
+    },
+    "Review": {
+      "type": "richtext"
+    },
+    "Cover": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": true
+    }
+  }
+}
