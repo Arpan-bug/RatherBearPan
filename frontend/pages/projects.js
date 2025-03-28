@@ -5,7 +5,7 @@ export default function Projects() {
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:1337/api/projects')
+    fetch('http://ratherbearpan.onrender.com/api/projects')
       .then((res) => res.json())
       .then((data) => setProjects(data.data));
   }, []);

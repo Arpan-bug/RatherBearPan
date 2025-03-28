@@ -10,7 +10,7 @@ export default function Blog() {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const res = await fetch('http://127.0.0.1:1337/api/blog-posts?populate=*');
+        const res = await fetch('http://ratherbearpan.onrender.com/api/blog-posts?populate=*');
         if (!res.ok) throw new Error(`Strapi responded with ${res.status}`);
         const data = await res.json();
         console.log("Blog data:", data);

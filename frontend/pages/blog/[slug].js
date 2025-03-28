@@ -17,7 +17,7 @@ export default function BlogPost() {
     const fetchBlog = async () => {
       try {
         const res = await fetch(
-          `http://127.0.0.1:1337/api/blog-posts?filters[slug][$eq]=${slug}`
+          `http://ratherbearpan.onrender.com/api/blog-posts?filters[slug][$eq]=${slug}`
         );
         const data = await res.json();
         console.log("Fetched blog:", data);

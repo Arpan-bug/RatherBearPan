@@ -5,7 +5,7 @@ export default function Reads() {
   const [books, setBooks] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:1337/api/book-reads?populate=*')
+    fetch('http://ratherbearpan.onrender.com/api/book-reads?populate=*')
       .then((res) => res.json())
       .then((data) => setBooks(data.data));
   }, []);
