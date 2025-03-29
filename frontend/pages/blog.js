@@ -38,7 +38,7 @@ export default function Blog() {
           ) : (
             <div className="space-y-8">
               {blogs.map((blog) => {
-                const b = blog.attributes || blog;
+                const b = blog;
 
                 return (
                   <div key={blog.id} className="border-b pb-6">
