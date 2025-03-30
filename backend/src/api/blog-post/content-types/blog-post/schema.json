@@ -28,6 +28,24 @@
     "Date": {
       "type": "date",
       "required": true
+    },
+    "Tags": {
+      "type": "enumeration",
+      "enum": [
+        "Life",
+        "Journal",
+        "Favorites",
+        "Sports",
+        "Thoughts",
+        "Technology"
+      ]
+    },
+    "Image": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false
     }
   }
 }

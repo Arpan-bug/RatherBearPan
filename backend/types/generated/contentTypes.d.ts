@@ -386,6 +386,7 @@ export interface ApiBlogPostBlogPost extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     Date: Schema.Attribute.Date & Schema.Attribute.Required;
+    Image: Schema.Attribute.Media<'images'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -394,6 +395,9 @@ export interface ApiBlogPostBlogPost extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
     slug: Schema.Attribute.UID<'Title'> & Schema.Attribute.Required;
+    Tags: Schema.Attribute.Enumeration<
+      ['Life', 'Journal', 'Favorites', 'Sports', 'Thoughts', 'Technology']
+    >;
     Title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
