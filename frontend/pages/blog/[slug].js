@@ -1,28 +1,43 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Navbar from '../../components/Navbar';
+import Link from 'next/link';
 
 export default function BlogPost() {
   const router = useRouter();
   const { slug } = router.query;
   const [blog, setBlog] = useState(null);
+  const [relatedBlogs, setRelatedBlogs] = useState([]);
   const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
-    console.log("router.isReady:", router.isReady);
-    console.log("slug from URL:", slug);
-
     if (!router.isReady || !slug) return;
 
     const fetchBlog = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/blog-posts?filters[slug][$eq]=${slug}`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/blog-posts?filters[slug][$eq]=${slug}&populate=*`);
         const data = await res.json();
-        console.log("Fetched blog:", data);
 
         if (data?.data?.length > 0) {
-          console.log("blog object:", data.data[0]);
-          setBlog(data.data[0]); // Set blog directly
+          const blogData = data.data[0];
+          setBlog(blogData);
+
+          const allRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/blog-posts?populate=*`);
+          const allData = await allRes.json();
+
+          if (allData?.data?.length > 0) {
+            const others = allData.data.filter((b) => b.id !== blogData.id);
+            const tagSet = new Set(blogData.Tags || []);
+
+            const related = others.filter((b) => {
+              const otherTags = b.Tags || [];
+              return otherTags.some((tag) => tagSet.has(tag));
+            });
+
+            const fallback = others.sort(() => 0.5 - Math.random());
+            const finalList = (related.length > 0 ? related : fallback).slice(0, 3);
+            setRelatedBlogs(finalList);
+          }
         } else {
           setNotFound(true);
         }
@@ -38,52 +53,94 @@ export default function BlogPost() {
   return (
     <>
       <Navbar />
-      <main className="pt-35 pb-24 min-h-screen bg-white text-gray-800 font-sans px-45 dark:bg-[#1F1B16] dark:text-[#FAF4ED]">
-        <div className="max-w-3xl mx-auto">
-          {!router.isReady ? (
-            <p className="text-gray-500">Initializing blog page...</p>
-          ) : notFound ? (
-            <p className="text-red-500 text-lg">Blog post not found.</p>
-          ) : blog ? (
-            <>
-              <h1 className="text-4xl font-bold mb-2">{blog.Title}</h1>
-              <p className="text-sm text-gray-500 mb-6">{blog.Date}</p>
-              <div
-                className="text-base leading-relaxed blog-post-content"
-                dangerouslySetInnerHTML={{ __html: blog.Content }}
-              ></div>
-            </>
-          ) : (
-            <p className="text-blue-600">Loading...</p>
-          )}
+
+      {blog && (
+        <div className="fixed top-24 left-0 right-0 z-40 px-4 sm:px-6 md:px-10 bg-white/90 dark:bg-[#1F1B16]/90 backdrop-blur-md shadow-md border-b border-[#f9c06b]">
+          <div className="max-w-6xl mx-auto py-4">
+            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#4B4032] dark:text-[#FAF4ED]">
+              {blog.Title}
+            </h1>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+              {new Date(blog.Date).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+              })}
+            </p>
+          </div>
+        </div>
+      )}
+
+      <main className="pt-56 pb-32 min-h-screen bg-white text-gray-800 font-sans px-4 sm:px-6 md:px-10 dark:bg-[#1F1B16] dark:text-[#FAF4ED]">
+        <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-12 pr-0 lg:pr-[22rem]">
+          <div className="lg:w-2/3">
+            {!router.isReady ? (
+              <p className="text-gray-500">Initializing blog page...</p>
+            ) : notFound ? (
+              <p className="text-red-500 text-lg">Blog post not found.</p>
+            ) : blog ? (
+              <>
+                <div
+                  className="prose dark:prose-invert max-w-none"
+                  dangerouslySetInnerHTML={{ __html: blog.Content }}
+                ></div>
+                <div className="text-5xl mt-12 text-center">🐾</div>
+              </>
+            ) : (
+              <p className="text-blue-600">Loading...</p>
+            )}
+          </div>
+        </div>
+
+        {/* Fixed Related Blogs */}
+        <div className="hidden lg:block fixed top-60 right-10 w-80 z-30">
+          <div className="bg-[#FEF7EC] border border-[#F9C06B] rounded-xl shadow-lg p-5">
+            <h2 className="text-xl font-semibold mb-4 text-[#4B4032]">Related Blogs</h2>
+            <div className="space-y-4">
+              {relatedBlogs.map((rel) => (
+                <Link
+                  key={rel.id}
+                  href={`/blog/${rel.slug}`}
+                  className="block border border-[#F9C06B] bg-white rounded-lg p-4 shadow-sm hover:shadow-md transition"
+                >
+                  <h3 className="text-lg font-medium text-[#4B4032] hover:text-[#8B5E3C]">{rel.Title}</h3>
+                  <p className="text-sm text-gray-500 mt-1">
+                    {new Date(rel.Date).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'short',
+                      day: 'numeric',
+                    })}
+                  </p>
+                  <p className="text-sm text-gray-700 mt-1 line-clamp-3">
+                    {rel.Content?.slice(0, 120)}...
+                  </p>
+                </Link>
+              ))}
+            </div>
+          </div>
         </div>
       </main>
-      <footer className="fixed bottom-0 left-0 w-full bg-[#FFF8F1] text-[#4B4032] py-6 border-t border-gray-200">
-  <div className="max-w-5xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm">
-    
-    {/* Left: Branding */}
-    <div className="flex items-center gap-2">
-      <span className="text-xl">🐻</span>
-      <span className="font-semibold">Rather Bear Pan</span>
-    </div>
 
-    {/* Center: Navigation */}
-    <div className="space-x-4">
-      <a href="/" className="hover:underline">Home</a>
-      <a href="/projects" className="hover:underline">Projects</a>
-      <a href="/blog" className="hover:underline">Blog</a>
-      <a href="/reads" className="hover:underline">Reads</a>
-    </div>
-
-    {/* Right: Socials */}
-    <div className="space-x-3">
-      <a href="https://www.linkedin.com/in/ratherbearpan" target="_blank" rel="noreferrer" className="hover:underline">LinkedIn</a>
-      <a href="https://github.com/Arpan-bug" target="_blank" rel="noreferrer" className="hover:underline">GitHub</a>
-      <a href="https://instagram.com/ratherbearpan" target="_blank" rel="noreferrer" className="hover:underline">Instagram</a>
-      <a href="mailto:arpansaha121@gmail.com" className="hover:underline">Email</a>
-    </div>
-  </div>
-</footer>
+      <footer className="mt-12 bg-[#FFF8F1] text-[#4B4032] py-6 border-t border-gray-200">
+        <div className="max-w-5xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm">
+          <div className="flex items-center gap-2">
+            <span className="text-xl">🐻</span>
+            <span className="font-semibold">Rather Bear Pan</span>
+          </div>
+          <div className="space-x-4">
+            <a href="/" className="hover:underline">Home</a>
+            <a href="/projects" className="hover:underline">Projects</a>
+            <a href="/blog" className="hover:underline">Blog</a>
+            <a href="/reads" className="hover:underline">Reads</a>
+          </div>
+          <div className="space-x-3">
+            <a href="https://www.linkedin.com/in/ratherbearpan" target="_blank" rel="noreferrer" className="hover:underline">LinkedIn</a>
+            <a href="https://github.com/Arpan-bug" target="_blank" rel="noreferrer" className="hover:underline">GitHub</a>
+            <a href="https://instagram.com/ratherbearpan" target="_blank" rel="noreferrer" className="hover:underline">Instagram</a>
+            <a href="mailto:arpansaha121@gmail.com" className="hover:underline">Email</a>
+          </div>
+        </div>
+      </footer>
     </>
   );
 }

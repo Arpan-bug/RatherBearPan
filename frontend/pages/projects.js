@@ -3,6 +3,7 @@ import Navbar from '../components/Navbar';
 
 export default function Projects() {
   const [projects, setProjects] = useState([]);
+  const [expanded, setExpanded] = useState({});
 
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/projects`)
@@ -10,34 +11,51 @@ export default function Projects() {
       .then((data) => setProjects(data.data));
   }, []);
 
+  const toggleDescription = (id) => {
+    setExpanded((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
+
   return (
     <>
       <Navbar />
-      <main className="pt-35 pb-24 min-h-screen bg-white text-gray-800 font-sans px-35 dark:bg-[#1F1B16] dark:text-[#FAF4ED]">
+      <main className="pt-35 pb-24 min-h-screen bg-white text-gray-800 font-sans px-4 sm:px-6 md:px-10 dark:bg-[#1F1B16] dark:text-[#FAF4ED]">
         <div className="max-w-5xl mx-auto">
-          <h1 className="text-4xl font-bold mb-6">Projects</h1>
+          <h1 className="text-4xl font-bold mb-8">Projects</h1>
 
           {projects.length === 0 ? (
             <p>No projects to show.</p>
           ) : (
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {projects.map((project) => {
                 const p = project.attributes || project;
-                console.log("Project:", JSON.stringify(p, null, 2));
+                const isExpanded = expanded[project.id];
 
                 return (
-                  <div key={project.id} className="p-6 border rounded-xl shadow hover:shadow-lg transition">
-                    <h2 className="text-xl font-semibold mb-2">{p.Title}</h2>
-                    <p className="text-gray-700 mb-2">{p.Description}</p>
-                    <p className="text-sm text-gray-500 mb-3">
-                      Tools:{' '}
-                      {Array.isArray(p.Tools)
-                        ? p.Tools.join(', ')
-                        : typeof p.Tools === 'string'
-                        ? p.Tools
-                        : 'N/A'}
-                    </p>
-                    <div className="flex gap-4">
+                  <div
+                    key={project.id}
+                    className="bg-[#FEF7EC] border border-[#F9C06B] rounded-xl shadow-md hover:shadow-lg transition-all p-5 sm:p-6 flex flex-col justify-between"
+                  >
+                    <div>
+                      <h2 className="text-xl font-semibold mb-2">{p.Title}</h2>
+                      <p className={`text-gray-700 text-sm leading-relaxed mb-2 ${isExpanded ? '' : 'line-clamp-4'}`}>
+                        {p.Description}
+                      </p>
+                      <button
+                        onClick={() => toggleDescription(project.id)}
+                        className="text-sm text-blue-600 hover:underline mb-3"
+                      >
+                        {isExpanded ? 'Show Less' : 'Read More'}
+                      </button>
+                      <p className="text-sm text-gray-500 mb-3">
+                        <span className="font-medium text-gray-600">Tools:</span>{' '}
+                        {Array.isArray(p.Tools)
+                          ? p.Tools.join(', ')
+                          : typeof p.Tools === 'string'
+                          ? p.Tools
+                          : 'N/A'}
+                      </p>
+                    </div>
+                    <div className="flex gap-4 mt-auto">
                       {p.Github && (
                         <a
                           href={p.Github}
@@ -66,33 +84,31 @@ export default function Projects() {
           )}
         </div>
       </main>
-      <footer className="fixed bottom-0 left-0 w-full bg-[#FFF8F1] text-[#4B4032] py-6 border-t border-gray-200">
-  <div className="max-w-5xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm">
-    
-    {/* Left: Branding */}
-    <div className="flex items-center gap-2">
-      <span className="text-xl">🐻</span>
-      <span className="font-semibold">Rather Bear Pan</span>
-    </div>
+      <footer className="mt-12 bg-[#FFF8F1] text-[#4B4032] py-6 border-t border-gray-200">
+        <div className="max-w-5xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm">
+          {/* Left: Branding */}
+          <div className="flex items-center gap-2">
+            <span className="text-xl">🐻</span>
+            <span className="font-semibold">Rather Bear Pan</span>
+          </div>
 
-    {/* Center: Navigation */}
-    <div className="space-x-4">
-      <a href="/" className="hover:underline">Home</a>
-      <a href="/projects" className="hover:underline">Projects</a>
-      <a href="/blog" className="hover:underline">Blog</a>
-      <a href="/reads" className="hover:underline">Reads</a>
-    </div>
+          {/* Center: Navigation */}
+          <div className="space-x-4">
+            <a href="/" className="hover:underline">Home</a>
+            <a href="/projects" className="hover:underline">Projects</a>
+            <a href="/blog" className="hover:underline">Blog</a>
+            <a href="/reads" className="hover:underline">Reads</a>
+          </div>
 
-    {/* Right: Socials */}
-    <div className="space-x-3">
-      <a href="https://www.linkedin.com/in/ratherbearpan" target="_blank" rel="noreferrer" className="hover:underline">LinkedIn</a>
-      <a href="https://github.com/Arpan-bug" target="_blank" rel="noreferrer" className="hover:underline">GitHub</a>
-      <a href="https://instagram.com/ratherbearpan" target="_blank" rel="noreferrer" className="hover:underline">Instagram</a>
-      <a href="mailto:arpansaha121@gmail.com" className="hover:underline">Email</a>
-    </div>
-  </div>
-</footer>
-
+          {/* Right: Socials */}
+          <div className="space-x-3">
+            <a href="https://www.linkedin.com/in/ratherbearpan" target="_blank" rel="noreferrer" className="hover:underline">LinkedIn</a>
+            <a href="https://github.com/Arpan-bug" target="_blank" rel="noreferrer" className="hover:underline">GitHub</a>
+            <a href="https://instagram.com/ratherbearpan" target="_blank" rel="noreferrer" className="hover:underline">Instagram</a>
+            <a href="mailto:arpansaha121@gmail.com" className="hover:underline">Email</a>
+          </div>
+        </div>
+      </footer>
     </>
   );
 }

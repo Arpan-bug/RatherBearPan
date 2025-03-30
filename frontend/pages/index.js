@@ -6,18 +6,18 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <main className="pt-35 pb-24 min-h-screen bg-white text-gray-800 font-sans px-35 dark:bg-[#1F1B16] dark:text-[#FAF4ED]">
+      <main className="pt-20 pb-5 min-h-screen bg-white text-gray-800 font-sans px-4 sm:px-6 md:px-10 dark:bg-[#1F1B16] dark:text-[#FAF4ED]">
 
-        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-start gap-8">
+      <div className="max-w-5xl mx-auto mt-16 sm:mt-20 flex flex-col lg:flex-row items-start gap-8">
 
           {/* Left: Headshot + Contact Links */}
-          <div className="bg-[#FEF7EC] border border-[#F9C06B] rounded-xl shadow-md p-6">
-          <div className="flex-shrink-0 text-center space-y-4">
-            <img
-              src="/arpan.jpg"
-              alt="Arpan"
-              className="w-40 h-40 md:w-52 md:h-52 object-cover rounded-full shadow-md mx-auto"
-            />
+          <div className="bg-[#FEF7EC] border border-[#F9C06B] rounded-xl shadow-md p-6 w-full lg:w-1/3 mt-6 sm:mt-8">
+          <div className="flex-shrink-0 text-center space-y-6">
+          <img
+  src="/arpan.jpg"
+  alt="Arpan"
+  className="w-32 h-32 sm:w-40 sm:h-40 md:w-52 md:h-52 object-cover rounded-full shadow-md mx-auto"
+/>
             <div className="flex flex-col items-center gap-2 text-gray-600 text-sm">
               <a href="https://www.linkedin.com/in/ratherbearpan" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-blue-600">
                 <FaLinkedin /> LinkedIn
@@ -37,7 +37,7 @@ export default function Home() {
           </div>
 
           {/* Right: Resume Content */}
-<div className="flex-grow space-y-10">
+          <div className="flex-grow space-y-10 w-full lg:w-2/3">
 
 {/* Name, About, and Education inside one container */}
 <div className="bg-[#FEF7EC] border border-[#F9C06B] rounded-xl shadow-md p-6">
@@ -59,48 +59,52 @@ export default function Home() {
 
       {/* Iowa State University */}
       <li>
-        <div className="flex justify-between items-baseline">
-          <div>
-            <a
-              href="https://www.iastate.edu/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-bold text-blue-600 hover:underline"
-            >
-              Iowa State University
-            </a>,
-            <em className="italic"> Ivy College of Business</em>
-            <span className="text-gray-700"> , IA, USA </span>
-          </div>
-          <span className="text-sm text-gray-600">Jan 2025 – Present</span>
-        </div>
-        <div className="text-sm text-gray-700">
-          Master of Science in Information Systems
-        </div>
-      </li>
+  <div className="flex justify-between items-baseline gap-2">
+    <div className="w-4/5 sm:w-auto">
+      <a
+        href="https://www.iastate.edu/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="font-bold text-blue-600 hover:underline"
+      >
+        Iowa State University
+      </a>
+      <div className="italic">
+        Ivy College of Business<span className="not-italic text-gray-700">, IA, USA</span>
+      </div>
+    </div>
+    <span className="text-sm text-gray-600 whitespace-nowrap">Jan 2025 – Present</span>
+  </div>
+  <div className="text-sm text-gray-700">
+    Master of Science in Information Systems
+  </div>
+</li>
+
 
       {/* SOA University */}
       <li>
-        <div className="flex justify-between items-baseline">
-          <div>
-            <a
-              href="https://www.soa.ac.in/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-bold text-blue-600 hover:underline"
-            >
-              Siksha ‘O’ Anusandhan
-            </a>,
-            <em className="italic"> Institute of Technical Education and Research</em>
-            <span className="text-gray-700"> , INDIA</span>
-          </div>
-          <span className="text-sm text-gray-600">Jun 2023</span>
-        </div>
-        <div className="text-sm text-gray-700">
-          Bachelor of Technology in Computer Science Engineering
-        </div>
-        <div className="text-sm text-gray-600">GPA: 7.92 / 10.00</div>
-      </li>
+  <div className="flex justify-between items-baseline gap-2">
+    <div className="w-4/5 sm:w-auto">
+      <a
+        href="https://www.soa.ac.in/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="font-bold text-blue-600 hover:underline"
+      >
+        Siksha ‘O’ Anusandhan
+      </a>
+      <div className="italic">
+        Institute of Technical Education and Research<span className="not-italic text-gray-700">, BBSR, INDIA</span>
+      </div>
+    </div>
+    <span className="text-sm text-gray-600 whitespace-nowrap">Jun 2023</span>
+  </div>
+  <div className="text-sm text-gray-700">
+    Bachelor of Technology in Computer Science Engineering
+  </div>
+  <div className="text-sm text-gray-600">GPA: 7.92 / 10.00</div>
+</li>
+
 
     </ul>
   </div>
@@ -138,7 +142,7 @@ export default function Home() {
   </div>
 </section>
 
-<section className="mb-12">
+<section className="mb-6">
   <h2 className="text-2xl font-semibold mb-6 flex items-center gap-2">
     🛠️ Projects
   </h2>
@@ -201,13 +205,13 @@ export default function Home() {
 
     {/* Cognizant Internship */}
     <li>
-      <div className="flex justify-between items-baseline">
-        <div>
-          <span className="font-bold">Cognizant Technology Solutions</span>, 
-          <span className="text-gray-700"> Kolkata, India</span>
-        </div>
-        <span className="text-sm text-gray-600">May 2023 – Sept 2023</span>
-      </div>
+    <div className="flex justify-between items-baseline gap-2">
+  <div className="w-4/5 sm:w-auto">
+    <div className="font-bold">Cognizant Technology Solutions</div>
+    <div className="text-gray-700">Kolkata, India</div>
+  </div>
+  <span className="text-sm text-gray-600 whitespace-nowrap">May 2023 – Sept 2023</span>
+</div>
       <div className="text-sm text-gray-800 font-medium mb-1">Programmer Analyst Intern</div>
       <ul className="list-disc list-inside text-sm text-gray-700 space-y-1 pl-4">
         <li>
@@ -238,13 +242,14 @@ export default function Home() {
 
     {/* Bidhata Suppliers */}
     <li>
-      <div className="flex justify-between items-baseline">
-        <div>
-          <span className="font-bold">Bidhata Suppliers</span>, 
-          <span className="text-gray-700"> Kolkata, India</span>
-        </div>
-        <span className="text-sm text-gray-600">Oct 2023 – Dec 2024</span>
-      </div>
+    <div className="flex justify-between items-baseline gap-2">
+  <div className="w-4/5 sm:w-auto">
+    <div className="font-bold">Bidhata Suppliers</div>
+    <div className="text-gray-700">Kolkata, India</div>
+  </div>
+  <span className="text-sm text-gray-600 whitespace-nowrap">Oct 2023 – Dec 2024</span>
+</div>
+
       <div className="text-sm text-gray-800 font-medium mb-1">Logistics Coordinator</div>
       <ul className="list-disc list-inside text-sm text-gray-700 space-y-1 pl-4">
         <li>
@@ -261,21 +266,22 @@ export default function Home() {
 
     {/* Aarthana.in */}
     <li>
-      <div className="flex justify-between items-baseline">
-        <div>
-          <a
-            href="https://www.aarthana.in"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-bold text-blue-600 hover:underline"
-          >
-            Aarthana.in
-          </a>
-          <span className="italic"> — Online Hindu Puja Booking Platform</span>, 
-          <span className="text-gray-700"> Kolkata, India</span>
-        </div>
-        <span className="text-sm text-gray-600">Jan 2024 – Dec 2024</span>
-      </div>
+    <div className="flex justify-between items-baseline gap-2">
+  <div className="w-4/5 sm:w-auto">
+    <a
+      href="https://www.aarthana.in"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="font-bold text-blue-600 hover:underline"
+    >
+      Aarthana.in
+    </a>
+    <div className="italic">Online Hindu Puja Booking Platform</div>
+    <div className="text-gray-700">Kolkata, India</div>
+  </div>
+  <span className="text-sm text-gray-600 whitespace-nowrap">Jan 2024 – Dec 2024</span>
+</div>
+
       <div className="text-sm text-gray-800 font-medium mb-1">Co-Founder, Project Management</div>
       <ul className="list-disc list-inside text-sm text-gray-700 space-y-1 pl-4">
         <li>
@@ -361,7 +367,7 @@ export default function Home() {
           </div>
         </div>
       </main>
-      <footer className="fixed bottom-0 left-0 w-full bg-[#FFF8F1] text-[#4B4032] py-6 border-t border-gray-200">
+      <footer className="mt-12 bg-[#FFF8F1] text-[#4B4032] py-6 border-t border-gray-200">
   <div className="max-w-5xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm">
     
     {/* Left: Branding */}
