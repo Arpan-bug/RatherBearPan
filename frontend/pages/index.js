@@ -369,8 +369,9 @@ export default function Home() {
 
           </div>
         </div>
+        </main>
+
         <RatherBot />
-      </main>
 
       
       <footer className="mt-12 bg-[#FFF8F1] text-[#4B4032] py-6 border-t border-gray-200">
