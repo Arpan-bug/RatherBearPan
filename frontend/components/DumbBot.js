@@ -39,24 +39,24 @@ export default function RatherBot() {
           🐻 Talk to RatherBot
         </button>
       ) : (
-        <div className="w-80 max-h-[70vh] bg-[#FEF7EC] border border-[#F9C06B] rounded-xl shadow-lg p-4 flex flex-col justify-between overflow-hidden">
+        <div className="w-80 max-h-[70vh] bg-[#FEF7EC] dark:bg-[#2C2113] border border-[#F9C06B] dark:border-yellow-700 rounded-xl shadow-lg p-4 flex flex-col justify-between overflow-hidden transition-colors duration-300">
           <div className="flex justify-between items-center mb-2">
-            <h3 className="text-md font-bold text-[#4B4032]">RatherBot 🐻</h3>
+            <h3 className="text-md font-bold text-[#4B4032] dark:text-[#FFD39F]">RatherBot 🐻</h3>
             <button
               onClick={() => setOpen(false)}
-              className="text-gray-500 hover:text-red-500 text-lg font-bold"
+              className="text-gray-500 dark:text-gray-300 hover:text-red-500 dark:hover:text-red-400 text-lg font-bold"
             >
               ×
             </button>
           </div>
 
-          <p className="text-xs text-gray-600 italic mb-3">
-          Sarcasm: 100%. Accuracy: Arpan-ish.
+          <p className="text-xs text-gray-600 dark:text-gray-400 italic mb-3">
+            Sarcasm: 100%. Accuracy: Arpan-ish.
           </p>
 
           {response && (
-            <div className="text-sm text-gray-800 mb-3 border rounded p-2 bg-white overflow-y-auto max-h-40">
-              <strong className="text-[#8B5E3C]">RatherBot:</strong>{' '}
+            <div className="text-sm text-gray-800 dark:text-gray-200 mb-3 border border-[#F9C06B] dark:border-yellow-700 rounded p-2 bg-white dark:bg-[#1F1B16] overflow-y-auto max-h-40">
+              <strong className="text-[#8B5E3C] dark:text-yellow-500">RatherBot:</strong>{' '}
               <span>{loading ? '...' : response}</span>
             </div>
           )}
@@ -71,13 +71,13 @@ export default function RatherBot() {
               }
             }}
             placeholder="Ask Anything"
-            className="w-full px-3 py-2 border border-[#F9C06B] rounded mb-2 text-sm resize-none"
+            className="w-full px-3 py-2 border border-[#F9C06B] dark:border-yellow-700 rounded mb-2 text-sm resize-none bg-white dark:bg-[#1F1B16] text-gray-800 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500"
             rows={2}
           />
 
           <button
             onClick={handleSend}
-            className="w-full bg-[#8B5E3C] text-white py-1.5 rounded-md hover:bg-[#73492C] transition"
+            className="w-full bg-[#8B5E3C] text-white py-1.5 rounded-md hover:bg-[#73492C] transition disabled:opacity-50"
             disabled={loading}
           >
             {loading ? 'Thinking...' : 'Send'}

@@ -71,11 +71,11 @@ export default function BlogPost() {
         </div>
       )}
 
-      <main className="pt-56 pb-32 min-h-screen bg-white text-gray-800 font-sans px-4 sm:px-6 md:px-10 dark:bg-[#1F1B16] dark:text-[#FAF4ED]">
+      <main className="pt-56 pb-32 min-h-screen bg-white text-gray-800 font-sans px-4 sm:px-6 md:px-10 dark:bg-[#1F1B16] dark:text-[#FAF4ED] transition-colors duration-300">
         <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-12 pr-0 lg:pr-[22rem]">
           <div className="lg:w-2/3">
             {!router.isReady ? (
-              <p className="text-gray-500">Initializing blog page...</p>
+              <p className="text-gray-500 dark:text-gray-400">Initializing blog page...</p>
             ) : notFound ? (
               <p className="text-red-500 text-lg">Blog post not found.</p>
             ) : blog ? (
@@ -87,31 +87,31 @@ export default function BlogPost() {
                 <div className="text-5xl mt-12 text-center">🐾</div>
               </>
             ) : (
-              <p className="text-blue-600">Loading...</p>
+              <p className="text-blue-600 dark:text-blue-300">Loading...</p>
             )}
           </div>
         </div>
 
         {/* Fixed Related Blogs */}
         <div className="hidden lg:block fixed top-60 right-10 w-80 z-30">
-          <div className="bg-[#FEF7EC] border border-[#F9C06B] rounded-xl shadow-lg p-5">
-            <h2 className="text-xl font-semibold mb-4 text-[#4B4032]">Related Blogs</h2>
+          <div className="bg-[#FEF7EC] dark:bg-[#2C2113] border border-[#F9C06B] dark:border-yellow-700 rounded-xl shadow-lg p-5">
+            <h2 className="text-xl font-semibold mb-4 text-[#4B4032] dark:text-white">Related Blogs</h2>
             <div className="space-y-4">
               {relatedBlogs.map((rel) => (
                 <Link
                   key={rel.id}
                   href={`/blog/${rel.slug}`}
-                  className="block border border-[#F9C06B] bg-white rounded-lg p-4 shadow-sm hover:shadow-md transition"
+                  className="block border border-[#F9C06B] bg-white dark:bg-[#1F1B16] text-[#4B4032] dark:text-[#FAF4ED] rounded-lg p-4 shadow-sm hover:shadow-md transition"
                 >
-                  <h3 className="text-lg font-medium text-[#4B4032] hover:text-[#8B5E3C]">{rel.Title}</h3>
-                  <p className="text-sm text-gray-500 mt-1">
+                  <h3 className="text-lg font-medium hover:text-[#8B5E3C] dark:hover:text-orange-300">{rel.Title}</h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                     {new Date(rel.Date).toLocaleDateString('en-US', {
                       year: 'numeric',
                       month: 'short',
                       day: 'numeric',
                     })}
                   </p>
-                  <p className="text-sm text-gray-700 mt-1 line-clamp-3">
+                  <p className="text-sm text-gray-700 dark:text-gray-300 mt-1 line-clamp-3">
                     {rel.Content?.slice(0, 120)}...
                   </p>
                 </Link>
@@ -121,7 +121,7 @@ export default function BlogPost() {
         </div>
       </main>
 
-      <footer className="mt-12 bg-[#FFF8F1] text-[#4B4032] py-6 border-t border-gray-200">
+      <footer className="mt-12 bg-[#FFF8F1] dark:bg-[#1a1a1a] text-[#4B4032] dark:text-white py-6 border-t border-gray-200 dark:border-gray-700 transition-colors duration-300">
         <div className="max-w-5xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm">
           <div className="flex items-center gap-2">
             <span className="text-xl">🐻</span>
