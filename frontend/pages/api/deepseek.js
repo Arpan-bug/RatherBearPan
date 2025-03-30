@@ -35,7 +35,7 @@ export default async function handler(req, res) {
         return res.status(200).json({ reply: data.choices[0].message.content });
       } else {
         console.error('OpenRouter API error:', data);
-        return res.status(500).json({ reply: '🐻 Bear is tired. API broke.' });
+        return res.status(500).json({ reply: '🐻 Bear’s brain went brrrrr… then stopped.' });
       }
     } catch (err) {
       console.error('Handler error:', err);

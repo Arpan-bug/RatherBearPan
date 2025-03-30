@@ -369,7 +369,10 @@ export default function Home() {
 
           </div>
         </div>
+        <RatherBot />
       </main>
+
+      
       <footer className="mt-12 bg-[#FFF8F1] text-[#4B4032] py-6 border-t border-gray-200">
   <div className="max-w-5xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm">
     
@@ -395,8 +398,8 @@ export default function Home() {
       <a href="mailto:arpansaha121@gmail.com" className="hover:underline">Email</a>
     </div>
   </div>
+  
 </footer>
-<RatherBot />
 
     </>
   );

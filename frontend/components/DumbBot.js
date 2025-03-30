@@ -30,7 +30,7 @@ export default function RatherBot() {
   };
 
   return (
-    <div className="fixed bottom-6 left-6 sm:left-12 md:left-16 lg:left-24 z-50">
+    <div className="fixed bottom-35 left-3/4 sm:left-[22%] md:left-[18%] lg:left-[15%] z-50">
       {!open ? (
         <button
           onClick={() => setOpen(true)}
