@@ -32,7 +32,7 @@ export default function Blog() {
 
           {blogs.length === 0 ? (
             <p className="text-center text-gray-500 italic mt-6">
-              🐾 No blogs yet. Maybe grab a cup of coffee and write your first one?
+              🐾 No blogs yet. Maybe grab a cup of coffee and while I write the first one?
             </p>
           ) : (
             <div className="grid gap-6">
@@ -52,7 +52,7 @@ export default function Blog() {
                   >
                     {imageUrl && (
                       <Image
-                        src={imageUrl}
+                      src={`${process.env.NEXT_PUBLIC_API_URL}${imageUrl}`}
                         alt={b.Title}
                         width={600}
                         height={300}

@@ -42,7 +42,7 @@ export default function Reads() {
                     {coverUrl && (
                       <div className="w-full h-40 overflow-hidden rounded mb-3 bg-white flex items-center justify-center">
                         <img
-                          src={`http://localhost:1337${coverUrl}`}
+                          src={`${process.env.NEXT_PUBLIC_API_URL}${coverUrl}`}
                           alt={b.Title}
                           className="h-full object-contain"
                         />
