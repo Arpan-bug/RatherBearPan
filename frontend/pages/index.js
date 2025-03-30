@@ -1,3 +1,4 @@
+import RatherBot from '../components/DumbBot';
 import Navbar from '../components/Navbar';
 import { FaLinkedin, FaGithub, FaInstagram, FaEnvelope } from 'react-icons/fa';
 import Link from 'next/link';
@@ -34,7 +35,9 @@ export default function Home() {
               </a>
             </div>
           </div>
+          
           </div>
+          
 
           {/* Right: Resume Content */}
           <div className="flex-grow space-y-10 w-full lg:w-2/3">
@@ -393,6 +396,7 @@ export default function Home() {
     </div>
   </div>
 </footer>
+<RatherBot />
 
     </>
   );
