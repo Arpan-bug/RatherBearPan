@@ -2,6 +2,7 @@ import RatherBot from '../components/DumbBot';
 import Navbar from '../components/Navbar';
 import { FaLinkedin, FaGithub, FaInstagram, FaEnvelope } from 'react-icons/fa';
 import Link from 'next/link';
+import Footer from '../components/myfooter';
 
 export default function Home() {
   return (
@@ -351,9 +352,9 @@ export default function Home() {
 
           </div>
         </div>
+        <RatherBot />
         </main>
-      <RatherBot />
-      <footer className="mt-12 bg-[#FFF8F1] dark:bg-[#1a1a1a] text-[#4B4032] dark:text-white py-6 border-t border-gray-200 dark:border-gray-700">
+        <footer className="mt-12 bg-[#FFF8F1] dark:bg-[#1a1a1a] text-[#4B4032] dark:text-white py-6 border-t border-gray-200 dark:border-gray-700">
         <div className="max-w-5xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm">
           <div className="flex items-center gap-2">
             <span className="text-xl">🐻</span>
