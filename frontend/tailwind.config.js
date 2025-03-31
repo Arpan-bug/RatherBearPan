@@ -1,17 +1,16 @@
+// tailwind.config.js
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: 'class', // ✅ Enables dark mode via class on <html>
+  darkMode: 'class', // 👈 This enables class-based dark mode (required for next-themes)
   content: [
-    './pages/**/*.{js,ts,jsx,tsx}',     // ✅ Pages
-    './components/**/*.{js,ts,jsx,tsx}', // ✅ Components
-    './app/**/*.{js,ts,jsx,tsx}',        // (if using app/ directory in future)
+    './pages/**/*.{js,ts,jsx,tsx}',
+    './components/**/*.{js,ts,jsx,tsx}',
+    './app/**/*.{js,ts,jsx,tsx}', // optional if you're using the /app directory
   ],
   theme: {
     extend: {
-      // Add any custom colors, fonts, etc. here
+      // You can put your custom colors, spacing, etc. here if needed
     },
   },
-  plugins: [
-    // Add plugins here if needed (e.g., forms, typography)
-  ],
+  plugins: [],
 };

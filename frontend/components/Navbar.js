@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Menu, X } from 'lucide-react';
-import ThemeToggle from './ThemeToggle'; // ✅ Import the theme toggle component
+// ✅ Import the theme toggle component
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -51,7 +51,7 @@ export default function Navbar() {
               <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-[#8B5E3C] dark:bg-orange-300 group-hover:w-full transition-all duration-300 ease-in-out"></span>
             </Link>
           ))}
-          <ThemeToggle /> {/* ✅ Button here */}
+         {/* <ThemeToggle /> {/* ✅ Button here */}
         </div>
 
         {/* Mobile Menu Button */}

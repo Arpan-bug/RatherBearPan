@@ -7,7 +7,6 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <Navbar />
       <main className="pt-20 pb-5 min-h-screen bg-white text-gray-800 font-sans px-4 sm:px-6 md:px-10 dark:bg-[#1F1B16] dark:text-[#FAF4ED] transition-colors duration-300">
         <div className="max-w-5xl mx-auto mt-16 sm:mt-20 flex flex-col lg:flex-row items-start gap-8">
 
