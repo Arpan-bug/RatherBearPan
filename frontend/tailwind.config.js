@@ -1,7 +1,7 @@
 // tailwind.config.js
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: 'class', // 👈 This enables class-based dark mode (required for next-themes)
+  /*darkMode: 'class', // 👈 This enables class-based dark mode (required for next-themes)*/
   content: [
     './pages/**/*.{js,ts,jsx,tsx}',
     './components/**/*.{js,ts,jsx,tsx}',

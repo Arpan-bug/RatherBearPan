@@ -82,7 +82,6 @@ export default function Navbar() {
             </Link>
           ))}
           <div className="pt-2">
-            <ThemeToggle /> {/* ✅ Optional in mobile too */}
           </div>
         </div>
       )}
