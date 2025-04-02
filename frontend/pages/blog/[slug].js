@@ -80,10 +80,20 @@ export default function BlogPost() {
               <p className="text-red-500 text-lg">Blog post not found.</p>
             ) : blog ? (
               <>
+                <div className="mt-2 mb-8">
+                  <Link
+                    href="/blog"
+                    className="inline-block bg-[#F9C06B] text-[#4B4032] dark:bg-yellow-700 dark:text-white px-5 py-2 rounded-lg font-medium shadow hover:shadow-md transition"
+                  >
+                    ← Back to Blog
+                  </Link>
+                </div>
+
                 <div
                   className="prose dark:prose-invert max-w-none"
                   dangerouslySetInnerHTML={{ __html: blog.Content }}
                 ></div>
+
                 <div className="text-5xl mt-12 text-center">🐾</div>
               </>
             ) : (

@@ -68,13 +68,13 @@ export default function Blog() {
                     <p className="text-sm text-gray-500 mt-1 mb-2">🗓️ {formattedDate}</p>
 
                     {/* Optional future tag support */}
-                    <div className="mb-2">
-                      {b.Tags?.map((tag) => (
-                        <span key={tag} className="bg-[#F9C06B] text-xs text-[#4B4032] px-2 py-0.5 rounded-full mr-2">
-                          #{tag}
-                        </span>
-                      ))}
-                    </div>
+                    {b.Tags && (
+  <div className="mb-2">
+    <span className="bg-[#F9C06B] text-xs text-[#4B4032] px-2 py-0.5 rounded-full mr-2">
+      #{b.Tags}
+    </span>
+  </div>
+)}
 
                     <p className="text-gray-700 text-sm leading-relaxed line-clamp-4">
                       {b.Content.slice(0, 200)}...
