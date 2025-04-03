@@ -15,23 +15,27 @@ export default function BlogPost() {
 
     const fetchBlog = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/blog-posts?filters[slug][$eq]=${slug}&populate=*`);
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/blog-posts?filters[slug][$eq]=${slug}&populate=Tags`
+        );
         const data = await res.json();
 
         if (data?.data?.length > 0) {
           const blogData = data.data[0];
           setBlog(blogData);
 
-          const allRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/blog-posts?populate=*`);
+          const currentTagIDs = blogData?.attributes?.Tags?.data?.map((tag) => tag.id) || [];
+          const tagSet = new Set(currentTagIDs);
+
+          const allRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/blog-posts?populate=Tags`);
           const allData = await allRes.json();
 
           if (allData?.data?.length > 0) {
             const others = allData.data.filter((b) => b.id !== blogData.id);
-            const tagSet = new Set(blogData.Tags || []);
 
             const related = others.filter((b) => {
-              const otherTags = b.Tags || [];
-              return otherTags.some((tag) => tagSet.has(tag));
+              const otherTagIDs = b?.attributes?.Tags?.data?.map((tag) => tag.id) || [];
+              return otherTagIDs.some((id) => tagSet.has(id));
             });
 
             const fallback = others.sort(() => 0.5 - Math.random());
@@ -58,10 +62,10 @@ export default function BlogPost() {
         <div className="fixed top-24 left-0 right-0 z-40 px-4 sm:px-6 md:px-10 bg-white/90 dark:bg-[#1F1B16]/90 backdrop-blur-md shadow-md border-b border-[#f9c06b]">
           <div className="max-w-6xl mx-auto py-4">
             <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#4B4032] dark:text-[#FAF4ED]">
-              {blog.Title}
+              {blog.attributes.Title}
             </h1>
             <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-              {new Date(blog.Date).toLocaleDateString('en-US', {
+              {new Date(blog.attributes.Date).toLocaleDateString('en-US', {
                 year: 'numeric',
                 month: 'short',
                 day: 'numeric',
@@ -91,7 +95,7 @@ export default function BlogPost() {
 
                 <div
                   className="prose dark:prose-invert max-w-none"
-                  dangerouslySetInnerHTML={{ __html: blog.Content }}
+                  dangerouslySetInnerHTML={{ __html: blog.attributes.Content }}
                 ></div>
 
                 <div className="text-5xl mt-12 text-center">🐾</div>
@@ -110,19 +114,19 @@ export default function BlogPost() {
               {relatedBlogs.map((rel) => (
                 <Link
                   key={rel.id}
-                  href={`/blog/${rel.slug}`}
+                  href={`/blog/${rel.attributes.slug}`}
                   className="block border border-[#F9C06B] bg-white dark:bg-[#1F1B16] text-[#4B4032] dark:text-[#FAF4ED] rounded-lg p-4 shadow-sm hover:shadow-md transition"
                 >
-                  <h3 className="text-lg font-medium hover:text-[#8B5E3C] dark:hover:text-orange-300">{rel.Title}</h3>
+                  <h3 className="text-lg font-medium hover:text-[#8B5E3C] dark:hover:text-orange-300">{rel.attributes.Title}</h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                    {new Date(rel.Date).toLocaleDateString('en-US', {
+                    {new Date(rel.attributes.Date).toLocaleDateString('en-US', {
                       year: 'numeric',
                       month: 'short',
                       day: 'numeric',
                     })}
                   </p>
                   <p className="text-sm text-gray-700 dark:text-gray-300 mt-1 line-clamp-3">
-                    {rel.Content?.slice(0, 120)}...
+                    {rel.attributes.Content?.slice(0, 120)}...
                   </p>
                 </Link>
               ))}
