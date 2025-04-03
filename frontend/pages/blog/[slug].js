@@ -16,7 +16,7 @@ export default function BlogPost() {
     const fetchBlog = async () => {
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/blog-posts?filters[slug][$eq]=${slug}&populate=Tags`
+          `${process.env.NEXT_PUBLIC_API_URL}/api/blog-posts?filters[slug][$eq]=${slug}&populate[Tags]=*`
         );
         const data = await res.json();
 
