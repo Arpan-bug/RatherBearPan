@@ -16,7 +16,7 @@ export default function BlogPost() {
     const fetchBlog = async () => {
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/blog-posts?filters[slug][$eq]=${slug}&populate[Tags]=*`
+          `${process.env.NEXT_PUBLIC_API_URL}/api/blog-posts?filters[slug][$eq]=${slug}&populate=tags`
         );
         const data = await res.json();
 
@@ -24,22 +24,21 @@ export default function BlogPost() {
           const blogData = data.data[0];
           setBlog(blogData);
 
-          const currentTagIDs = blogData?.attributes?.Tags?.data?.map((tag) => tag.id) || [];
-          const tagSet = new Set(currentTagIDs);
+          const currentTagIds = blogData.attributes.tags?.map((tag) => tag.id) || [];
 
-          const allRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/blog-posts?populate=Tags`);
+          const allRes = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/blog-posts?populate=tags`
+          );
           const allData = await allRes.json();
 
           if (allData?.data?.length > 0) {
-            const others = allData.data.filter((b) => b.id !== blogData.id);
-
-            const related = others.filter((b) => {
-              const otherTagIDs = b?.attributes?.Tags?.data?.map((tag) => tag.id) || [];
-              return otherTagIDs.some((id) => tagSet.has(id));
+            const related = allData.data.filter((b) => {
+              if (b.id === blogData.id) return false;
+              const bTagIds = b.attributes.tags?.map((tag) => tag.id) || [];
+              return bTagIds.some((id) => currentTagIds.includes(id));
             });
 
-            const fallback = others.sort(() => 0.5 - Math.random());
-            const finalList = (related.length > 0 ? related : fallback).slice(0, 3);
+            const finalList = related.sort(() => 0.5 - Math.random()).slice(0, 3);
             setRelatedBlogs(finalList);
           }
         } else {
@@ -58,7 +57,7 @@ export default function BlogPost() {
     <>
       <Navbar />
 
-      {blog && (
+      {blog?.attributes && (
         <div className="fixed top-24 left-0 right-0 z-40 px-4 sm:px-6 md:px-10 bg-white/90 dark:bg-[#1F1B16]/90 backdrop-blur-md shadow-md border-b border-[#f9c06b]">
           <div className="max-w-6xl mx-auto py-4">
             <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#4B4032] dark:text-[#FAF4ED]">
@@ -71,6 +70,19 @@ export default function BlogPost() {
                 day: 'numeric',
               })}
             </p>
+
+            {blog.attributes.tags?.length > 0 && (
+              <div className="mt-2 flex flex-wrap gap-2">
+                {blog.attributes.tags.map((tag) => (
+                  <span
+                    key={tag.id}
+                    className="px-3 py-1 bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-white text-xs font-medium rounded-full"
+                  >
+                    {tag.name}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -82,7 +94,7 @@ export default function BlogPost() {
               <p className="text-gray-500 dark:text-gray-400">Initializing blog page...</p>
             ) : notFound ? (
               <p className="text-red-500 text-lg">Blog post not found.</p>
-            ) : blog ? (
+            ) : blog?.attributes ? (
               <>
                 <div className="mt-2 mb-8">
                   <Link
@@ -106,30 +118,36 @@ export default function BlogPost() {
           </div>
         </div>
 
-        {/* Fixed Related Blogs */}
+        {/* Related Blogs */}
         <div className="hidden lg:block fixed top-60 right-10 w-80 z-30">
           <div className="bg-[#FEF7EC] dark:bg-[#2C2113] border border-[#F9C06B] dark:border-yellow-700 rounded-xl shadow-lg p-5">
             <h2 className="text-xl font-semibold mb-4 text-[#4B4032] dark:text-white">Related Blogs</h2>
             <div className="space-y-4">
-              {relatedBlogs.map((rel) => (
-                <Link
-                  key={rel.id}
-                  href={`/blog/${rel.attributes.slug}`}
-                  className="block border border-[#F9C06B] bg-white dark:bg-[#1F1B16] text-[#4B4032] dark:text-[#FAF4ED] rounded-lg p-4 shadow-sm hover:shadow-md transition"
-                >
-                  <h3 className="text-lg font-medium hover:text-[#8B5E3C] dark:hover:text-orange-300">{rel.attributes.Title}</h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                    {new Date(rel.attributes.Date).toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'short',
-                      day: 'numeric',
-                    })}
-                  </p>
-                  <p className="text-sm text-gray-700 dark:text-gray-300 mt-1 line-clamp-3">
-                    {rel.attributes.Content?.slice(0, 120)}...
-                  </p>
-                </Link>
-              ))}
+              {relatedBlogs.length === 0 ? (
+                <p className="text-sm text-gray-500">No related posts found.</p>
+              ) : (
+                relatedBlogs.map((rel) => (
+                  <Link
+                    key={rel.id}
+                    href={`/blog/${rel.attributes.slug}`}
+                    className="block border border-[#F9C06B] bg-white dark:bg-[#1F1B16] text-[#4B4032] dark:text-[#FAF4ED] rounded-lg p-4 shadow-sm hover:shadow-md transition"
+                  >
+                    <h3 className="text-lg font-medium hover:text-[#8B5E3C] dark:hover:text-orange-300">
+                      {rel.attributes.Title}
+                    </h3>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                      {new Date(rel.attributes.Date).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                      })}
+                    </p>
+                    <p className="text-sm text-gray-700 dark:text-gray-300 mt-1 line-clamp-3">
+                      {rel.attributes.Content?.slice(0, 120)}...
+                    </p>
+                  </Link>
+                ))
+              )}
             </div>
           </div>
         </div>

@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import Link from 'next/link';
-import Image from 'next/image';
 import Footer from '../components/myfooter';
 
 export default function Blog() {
@@ -10,14 +9,16 @@ export default function Blog() {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/blog-posts?populate=*`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/blog-posts?populate=tags`);
         if (!res.ok) throw new Error(`Strapi responded with ${res.status}`);
         const data = await res.json();
-        console.log("Blog data:", data);
-        setBlogs(data.data);
+
+        // Sort descending by Date
+        const sorted = data.data.sort((a, b) => new Date(b.attributes.Date) - new Date(a.attributes.Date));
+        setBlogs(sorted);
       } catch (err) {
         console.error("❌ Error fetching blogs:", err.message);
-        setBlogs([]); // fallback so app doesn't crash
+        setBlogs([]); // fallback to empty array
       }
     };
 
@@ -37,51 +38,49 @@ export default function Blog() {
             </p>
           ) : (
             <div className="grid gap-6">
-              {blogs.map((blog) => {
-                const b = blog;
-                const formattedDate = new Date(b.Date).toLocaleDateString('en-US', {
+              {blogs.map((b) => {
+                const { Title, slug, Date, Content, tags } = b.attributes;
+
+                const formattedDate = new Date(Date).toLocaleDateString('en-US', {
                   year: 'numeric',
                   month: 'short',
                   day: 'numeric',
                 });
-                const imageUrl = b.Image?.url || b.Image?.data?.attributes?.url;
 
                 return (
                   <div
-                    key={blog.id}
+                    key={b.id}
                     className="bg-[#FEF7EC] border border-[#F9C06B] rounded-xl p-6 shadow-md hover:shadow-lg transition-all transform hover:scale-[1.02]"
                   >
-                    {imageUrl && (
-                      <Image
-                      src={`${process.env.NEXT_PUBLIC_API_URL}${imageUrl}`}
-                        alt={b.Title}
-                        width={600}
-                        height={300}
-                        className="rounded-lg mb-4 object-cover w-full h-48"
-                      />
-                    )}
-                    <Link href={`/blog/${b.slug}`} className="block group">
+                    <Link href={`/blog/${slug}`} className="block group">
                       <h2 className="text-2xl font-semibold text-[#4B4032] group-hover:text-[#8B5E3C] transition-colors">
-                        {b.Title}
+                        {Title}
                       </h2>
                     </Link>
+
                     <p className="text-sm text-gray-500 mt-1 mb-2">🗓️ {formattedDate}</p>
 
-                    {/* Optional future tag support */}
-                    {b.Tags && (
-  <div className="mb-2">
-    <span className="bg-[#F9C06B] text-xs text-[#4B4032] px-2 py-0.5 rounded-full mr-2">
-      #{b.Tags}
-    </span>
-  </div>
-)}
+                    {/* Tags */}
+                    {tags?.length > 0 && (
+                      <div className="mb-2 flex flex-wrap gap-2">
+                        {tags.map((tag) => (
+                          <span
+                            key={tag.id}
+                            className="px-2 py-1 bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-white text-xs font-medium rounded-full"
+                          >
+                            {tag.name}
+                          </span>
+                        ))}
+                      </div>
+                    )}
 
                     <p className="text-gray-700 text-sm leading-relaxed line-clamp-4">
-                      {b.Content.slice(0, 200)}...
+                      {Content.slice(0, 200)}...
                     </p>
+
                     <div className="mt-4">
                       <Link
-                        href={`/blog/${b.slug}`}
+                        href={`/blog/${slug}`}
                         className="inline-block text-sm text-blue-600 hover:underline"
                       >
                         Read Full Post →
@@ -94,6 +93,7 @@ export default function Blog() {
           )}
         </div>
       </main>
+
       <footer className="mt-12 bg-[#FFF8F1] dark:bg-[#1a1a1a] text-[#4B4032] dark:text-white py-6 border-t border-gray-200 dark:border-gray-700">
         <div className="max-w-5xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm">
           <div className="flex items-center gap-2">
@@ -114,7 +114,6 @@ export default function Blog() {
           </div>
         </div>
       </footer>
-          </>
-        );
-      }
-      
+    </>
+  );
+}
