@@ -13,12 +13,22 @@ export default function Blog() {
         if (!res.ok) throw new Error(`Strapi responded with ${res.status}`);
         const data = await res.json();
 
-        // Sort descending by Date
-        const sorted = data.data.sort((a, b) => new Date(b.attributes.Date) - new Date(a.attributes.Date));
+        const filtered = data.data.filter((b) => {
+          const hasDate = b?.attributes?.Date;
+          if (!hasDate) {
+            console.warn("⚠️ Skipping blog with missing Date:", b);
+          }
+          return hasDate;
+        });
+
+        const sorted = filtered.sort(
+          (a, b) => new Date(b.attributes.Date) - new Date(a.attributes.Date)
+        );
+
         setBlogs(sorted);
       } catch (err) {
-        console.error("❌ Error fetching blogs:", err.message);
-        setBlogs([]); // fallback to empty array
+        console.error('❌ Error fetching blogs:', err.message);
+        setBlogs([]);
       }
     };
 
@@ -39,13 +49,15 @@ export default function Blog() {
           ) : (
             <div className="grid gap-6">
               {blogs.map((b) => {
-                const { Title, slug, Date, Content, tags } = b.attributes;
+                const { Title, slug, Date: dateStr, Content, tags } = b.attributes;
 
-                const formattedDate = new Date(Date).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'short',
-                  day: 'numeric',
-                });
+                const formattedDate = dateStr
+                  ? new Date(dateStr).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'short',
+                      day: 'numeric',
+                    })
+                  : '🕓 Unknown date';
 
                 return (
                   <div
@@ -60,7 +72,6 @@ export default function Blog() {
 
                     <p className="text-sm text-gray-500 mt-1 mb-2">🗓️ {formattedDate}</p>
 
-                    {/* Tags */}
                     {tags?.length > 0 && (
                       <div className="mb-2 flex flex-wrap gap-2">
                         {tags.map((tag) => (
@@ -93,27 +104,7 @@ export default function Blog() {
           )}
         </div>
       </main>
-
-      <footer className="mt-12 bg-[#FFF8F1] dark:bg-[#1a1a1a] text-[#4B4032] dark:text-white py-6 border-t border-gray-200 dark:border-gray-700">
-        <div className="max-w-5xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm">
-          <div className="flex items-center gap-2">
-            <span className="text-xl">🐻</span>
-            <span className="font-semibold">Rather Bear Pan</span>
-          </div>
-          <div className="space-x-4">
-            <a href="/" className="hover:underline">Home</a>
-            <a href="/projects" className="hover:underline">Projects</a>
-            <a href="/blog" className="hover:underline">Blog</a>
-            <a href="/reads" className="hover:underline">Reads</a>
-          </div>
-          <div className="space-x-3">
-            <a href="https://www.linkedin.com/in/ratherbearpan" target="_blank" rel="noreferrer" className="hover:underline">LinkedIn</a>
-            <a href="https://github.com/Arpan-bug" target="_blank" rel="noreferrer" className="hover:underline">GitHub</a>
-            <a href="https://instagram.com/ratherbearpan" target="_blank" rel="noreferrer" className="hover:underline">Instagram</a>
-            <a href="mailto:arpansaha121@gmail.com" className="hover:underline">Email</a>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </>
   );
 }

@@ -64,11 +64,13 @@ export default function BlogPost() {
               {blog.attributes.Title}
             </h1>
             <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-              {new Date(blog.attributes.Date).toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric',
-              })}
+              {blog.attributes.Date
+                ? new Date(blog.attributes.Date).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                  })
+                : '🕓 Unknown date'}
             </p>
 
             {blog.attributes.tags?.length > 0 && (
@@ -136,11 +138,13 @@ export default function BlogPost() {
                       {rel.attributes.Title}
                     </h3>
                     <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                      {new Date(rel.attributes.Date).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric',
-                      })}
+                      {rel.attributes.Date
+                        ? new Date(rel.attributes.Date).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'short',
+                            day: 'numeric',
+                          })
+                        : '🕓 Unknown date'}
                     </p>
                     <p className="text-sm text-gray-700 dark:text-gray-300 mt-1 line-clamp-3">
                       {rel.attributes.Content?.slice(0, 120)}...
@@ -153,7 +157,7 @@ export default function BlogPost() {
         </div>
       </main>
 
-      <footer className="mt-12 bg-[#FFF8F1] dark:bg-[#1a1a1a] text-[#4B4032] dark:text-white py-6 border-t border-gray-200 dark:border-gray-700 transition-colors duration-300">
+      <footer className="mt-12 bg-[#FFF8F1] dark:bg-[#1a1a1a] text-[#4B4032] dark:text-white py-6 border-t border-gray-200 dark:border-gray-700">
         <div className="max-w-5xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm">
           <div className="flex items-center gap-2">
             <span className="text-xl">🐻</span>
