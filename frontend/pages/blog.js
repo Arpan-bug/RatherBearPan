@@ -13,16 +13,18 @@ export default function Blog() {
         if (!res.ok) throw new Error(`Strapi responded with ${res.status}`);
         const data = await res.json();
 
+        const getDate = (b) => b?.Date || b?.attributes?.Date;
+
         const filtered = data.data.filter((b) => {
-          const hasDate = b?.attributes?.Date;
-          if (!hasDate) {
+          const date = getDate(b);
+          if (!date) {
             console.warn("⚠️ Skipping blog with missing Date:", b);
           }
-          return hasDate;
+          return date;
         });
 
         const sorted = filtered.sort(
-          (a, b) => new Date(b.attributes.Date) - new Date(a.attributes.Date)
+          (a, b) => new Date(getDate(b)) - new Date(getDate(a))
         );
 
         setBlogs(sorted);
@@ -49,7 +51,9 @@ export default function Blog() {
           ) : (
             <div className="grid gap-6">
               {blogs.map((b) => {
-                const { Title, slug, Date: dateStr, Content, tags } = b.attributes;
+                const attrs = b.attributes || b; // handles both cases
+                const { Title, slug, Content, tags } = attrs;
+                const dateStr = attrs.Date;
 
                 const formattedDate = dateStr
                   ? new Date(dateStr).toLocaleDateString('en-US', {
@@ -86,7 +90,7 @@ export default function Blog() {
                     )}
 
                     <p className="text-gray-700 text-sm leading-relaxed line-clamp-4">
-                      {Content.slice(0, 200)}...
+                      {Content?.slice(0, 200)}...
                     </p>
 
                     <div className="mt-4">
@@ -104,6 +108,7 @@ export default function Blog() {
           )}
         </div>
       </main>
+
       <Footer />
     </>
   );

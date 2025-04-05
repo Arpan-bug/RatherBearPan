@@ -24,7 +24,9 @@ export default function BlogPost() {
           const blogData = data.data[0];
           setBlog(blogData);
 
-          const currentTagIds = blogData.attributes.tags?.map((tag) => tag.id) || [];
+          // Safely extract tag IDs from current post
+          const tagsArray = blogData?.attributes?.tags;
+          const currentTagIds = Array.isArray(tagsArray) ? tagsArray.map(tag => tag.id) : [];
 
           const allRes = await fetch(
             `${process.env.NEXT_PUBLIC_API_URL}/api/blog-posts?populate=tags`
@@ -34,7 +36,10 @@ export default function BlogPost() {
           if (allData?.data?.length > 0) {
             const related = allData.data.filter((b) => {
               if (b.id === blogData.id) return false;
-              const bTagIds = b.attributes.tags?.map((tag) => tag.id) || [];
+
+              const otherTags = b?.attributes?.tags;
+              const bTagIds = Array.isArray(otherTags) ? otherTags.map(tag => tag.id) : [];
+
               return bTagIds.some((id) => currentTagIds.includes(id));
             });
 
